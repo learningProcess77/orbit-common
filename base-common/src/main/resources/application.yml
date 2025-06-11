@@ -1,0 +1,4 @@
+spring:
+  messages:
+    basename: common-response
+    encoding: UTF-8

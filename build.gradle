@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    commonVersion = "0.1.0-SNAPSHOT"
+    springBootVersion = "3.4.3"
+    queryDslVersion = "5.0.0"
+    lombokVersion = "1.18.30"
+}
+
+allprojects {
+    group 'orbit.erp'
+    version commonVersion
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
+    sourceCompatibility = 17
+    targetCompatibility = 17
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        compileOnly("org.projectlombok:lombok:${lombokVersion}")
+        annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
