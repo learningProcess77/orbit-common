@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'java-library'
+    id 'maven-publish'
 }
 
 ext {
@@ -32,6 +34,28 @@ subprojects {
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    publishing {
+        publications {
+            gpr(MavenPublication) {
+                groupId = project.group
+                artifactId = project.name
+                version = version
+
+                from components.java
+            }
+        }
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/learningProcess77/orbit-common")
+                credentials {
+                    username = project.findProperty("gpr.user")
+                    password = project.findProperty("gpr.key")
+                }
+            }
+        }
     }
 }
 
